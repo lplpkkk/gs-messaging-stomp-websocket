@@ -6,6 +6,7 @@
     <script src="stomp.js"></script>
     <script type="text/javascript">
         var stompClient = null;
+        var class_array = [];
 
         // manual update data....QQQ
         var ttttt = 0;
@@ -67,11 +68,17 @@
             var name1 = document.getElementById('name').value;
             var classname = document.getElementById('classname').value;
 
+            // test_if_in_array(classname);
+            if (class_array.indexOf(classname) == -1)
+                insert_row(classname);
+            else{
+                // do nothing
+            }
+            class_array.push(classname);
+
             // Released!!! FEELING SO PSYCHED!!
             stompClient.send("/app/hello", {}, JSON.stringify({ 'name': name1 ,
                                                                 'name2': classname}));
-            // stompClient.send("/app/hello", {}, JSON.stringify({ 'name2': classname }));
-
             if (times <1)
             {
                 console.log.out("finish");
@@ -107,13 +114,29 @@
         {
             // below 2 lines are correct.
             var po = document.getElementById(position);
-            po.innerHTML = "TEST~~" ;
+            po.innerHTML = " " ;
         }
 
         function update(position,value)
         {
             var po = document.getElementById(position);
             po.innerHTML = value;
+        }
+
+        function insert_row(showing)
+        {
+            var num = document.getElementById('mytable').rows.length;
+            var Tr = document.getElementById('mytable').insertRow(num);
+            Td = Tr.insertCell(Tr.cells.length);
+            Td.innerHTML = showing;
+            Td = Tr.insertCell(Tr.cells.length);
+            Td = Tr.insertCell(Tr.cells.length);
+            Td = Tr.insertCell(Tr.cells.length);
+        }
+
+        function select_and_add(where,value1,value2,value3)
+        {
+
         }
     </script>
 </head>
@@ -127,7 +150,7 @@
 
 <div id ="table1"></div>
 
-    <table border="1">
+    <table id = "mytable" border="1">
   <tr>
     <td>class name</td>
     <td>pass</td>
@@ -162,7 +185,7 @@
         <label>scipt name:</label><input type="text" id="name" /><br>
         <label>class name:</label><input type="text" id="classname" /><br>
         
-        <button id="sendName" onclick="sendName(1000);">Send</button>
+        <button id="sendName" onclick="sendName(10);">Send</button>
         <p id="response"></p>
     </div>
 </div>
