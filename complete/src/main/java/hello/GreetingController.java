@@ -32,7 +32,7 @@ public class GreetingController {
         String countingvalue_string = Integer.toString(message.countingvalue);
         // return new Greeting("Hello, " + message.getName() + "!"+data);
         String out_string1 = "Hello, " + message.getName() + message.getName2();
-        return new Greeting(data,out_string1);
+        return new Greeting(message.getName()+"__"+data,out_string1);
 
     }
 

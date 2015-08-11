@@ -50,9 +50,9 @@
                     else
                         ;
                     //  update value~
-                    if (json_content === "pass")
+                    if (json_content.indexOf("pass") > -1)
                         data[class_index*3]+=1;
-                    else if (json_content === "fail")
+                    else 
                         data[class_index*3 +1]+=1;
 
                     data[class_index*3 +2]+=1;
@@ -70,7 +70,7 @@
        function update_all(value)
        {
          // counting 
-        if (value == "pass")
+        if (value.indexOf("pass") > -1)
             ttttt+=1;
         else failcount+=1;
         totalcount+=1;
