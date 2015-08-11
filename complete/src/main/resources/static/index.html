@@ -3,15 +3,8 @@
 <head>
     <title>Hello WebSocket</title>
 
-    <style type="text/css">
-        body {
-            padding-top: 60px;
-            padding-bottom: 40px;
-        }
-        .sidebar-nav {
-            padding: 9px 0;
-        }
-    </style>
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="dashboard.css" rel="stylesheet">
 
     <script src="sockjs-0.3.4.js"></script>
     <script src="stomp.js"></script>
@@ -57,8 +50,6 @@
                     else
                         ;
                     //  update value~
-                    $( "td:eq( 8 )" ).css( "color", "red" );
-
                     if (json_content === "pass")
                         data[class_index*3]+=1;
                     else if (json_content === "fail")
@@ -159,7 +150,6 @@
         // choose the input class
         function choose_class(position)
         {
-            // below 2 lines are correct.
             var po = document.getElementById(position);
             po.innerHTML = " " ;
         }
@@ -197,9 +187,99 @@
     <!-- <div id = "position"></div> -->
     <!-- // <script type = "text/javascript">countdown(3,"position")</script> -->
 
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" data-pg-collapsed>
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Report Page!</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#">Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="#">Settings</a>
+                        </li>
+                        <li>
+                            <a href="#">Profile</a>
+                        </li>
+                        <li>
+                            <a href="#">Help</a>
+                        </li>
+                    </ul>
+                    <form class="navbar-form navbar-right">
+                        <input type="text" class="form-control" placeholder="Search...">
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-3 sidebar">
+                    <ul class="nav nav-sidebar">
+                        <li class="active">
+                            <br>
+                        </li>
+                        <li>
+                            <a href="#qqqq" style="font-size:2em;">Client side link</a>
+                        </li>
+                        <li>
+                            <a href="#qqqq2" style="font-size:2em;">Server side link</a>
+                        </li>
+                    </ul>
+                  
+                </div>
+
+                <div class="col-sm-9 col-sm-offset-3 main">
+                    <h1 class="page-header" id ="qqqq">Client Side</h1>
+
+                          <button id="connect" onclick="connect();">Connect</button>
+                          <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
+                            
+                          <br />
+                          <br />
+
+                          <table id = "mytable" border="1" style="font-size:1.4em;" WIDTH="400" HEIGHT="60">
+                        <tr style="font-weight:bold;">
+                          <td>Class name </td>
+                          <td>Pass </td>
+                          <td>Fail </td> 
+                          <td>Total </td>
+                        </tr>
+                        <tr>
+                          <td id = "group1"></td>
+                          <!-- // <script type = "text/javascript"> choose_class("group1")</script> -->
+
+                          <!-- getElementById is for init the table value to 0  -->
+                          <td id ="pass1"></td>
+                          <script>document.getElementById('pass1').innerHTML = ttttt</script>
+                          <td id = "fail1"></td> 
+                          <script>document.getElementById('fail1').innerHTML = failcount</script>
+                          <td id = "total1"></td>
+                          <script>document.getElementById('total1').innerHTML = totalcount</script>
+                        </tr>
+                          </table>
+
+                    <h2 class="sub-header" id = "qqqq2">Server Side</h2>
+                    <div id="conversationDiv">
+                        <label>scipt name:</label><input type="text" id="name" /><br>
+                        <label>class name:</label><input type="text" id="classname" /><br>
+                        
+                        <button id="sendName" onclick="sendName(10);">Send</button>
+                        <p id="response"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 <div id ="table1"></div>
-    <div id="myDiv"></div>
- 
     <table id = "mytable" border="1">
   <tr>
     <td>class name</td>
@@ -226,7 +306,6 @@
         <button id="connect" onclick="connect();">Connect</button>
         <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
     </div>
-
 
     <div id="conversationDiv">
         <label>scipt name:</label><input type="text" id="name" /><br>
