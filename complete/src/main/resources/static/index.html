@@ -42,13 +42,27 @@
                     update_all(json_content);
 
                     // init value for undefined data
+
+                    // if (!data[class_index*3])
+                        // for (i=0;i<3;i++)
+                        // {
+                            // data[i+class_index*3] = 0;
+                        // }
+                    // else
+                        // ;
+
                     if (!data[class_index*3])
-                        for (i=0;i<3;i++)
-                        {
-                            data[i+class_index*3] = 0;
-                        }
-                    else
-                        ;
+                        data[class_index*3] = 0;
+                    else ;
+
+                    if (!data[class_index*3 +1])
+                        data[class_index*3 +1] = 0;
+                    else ;
+
+                    if (!data[class_index*3 +2])
+                        data[class_index*3 +2] = 0;
+                    else ;
+
                     //  update value~
                     if (json_content.indexOf("pass") > -1)
                         data[class_index*3]+=1;
