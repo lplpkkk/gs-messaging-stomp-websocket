@@ -17,12 +17,10 @@ public class GreetingController {
        	// modified, add random prefix of pass or fail
         Random rand = new Random();
         String data = null;
-        boolean flag = (rand.nextInt(2) !=0);
+        boolean flag = (rand.nextInt(50) !=0);
         if(flag)
         {
         	data = "pass";
-        	// added here 
-        	message.setCV(message.countingvalue+1);
         }
         else
         {
