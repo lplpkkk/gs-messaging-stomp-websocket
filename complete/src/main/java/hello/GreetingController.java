@@ -17,7 +17,7 @@ public class GreetingController {
        	// modified, add random prefix of pass or fail
         Random rand = new Random();
         String data = null;
-        boolean flag = (rand.nextInt(50) !=0);
+        boolean flag = (rand.nextInt(30) !=0);
         if(flag)
         {
         	data = "pass";

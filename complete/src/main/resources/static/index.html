@@ -10,6 +10,21 @@
     <script src="stomp.js"></script>
     <script src="jquery-2.1.4.min.js"></script>
     <script type="text/javascript">
+        // test 2D array in js!
+        // result: 1. cannot use .push() 
+        //         2. when using a 2d ,you have to create(new) it.
+
+        // test index here!
+        var test3 = [];
+        test3.push("qq"); // index of "qq" is 0!
+        var i = test3.indexOf("qq"); // i = 0
+        test3[i] = []; 
+        var l = test3[i].length ; // l = 0
+        test3[i][l] = "??";
+
+         // create a butten inside the fail_data table ,use
+         // showgreeting() method to printout fail_data
+
         var stompClient = null;
         var class_array = [];
         var class_index ;
@@ -19,8 +34,10 @@
         var failcount = 0;
         var totalcount = 0;
 
-        // test~
         var data = [];
+
+        // record fail data here.
+        var fail_data = [];
 
         function setConnected(connected) {
             document.getElementById('connect').disabled = connected;
@@ -37,46 +54,60 @@
                 console.log('Connected: ' + frame);
                 stompClient.subscribe('/topic/greetings', function(greeting){
                     var json_content = JSON.parse(greeting.body).content
+
                     showGreeting(json_content);
 
+                    // updare all statistical data
                     update_all(json_content);
 
                     // init value for undefined data
-
-                    // if (!data[class_index*3])
-                        // for (i=0;i<3;i++)
-                        // {
-                            // data[i+class_index*3] = 0;
-                        // }
-                    // else
-                        // ;
-
-                    if (!data[class_index*3])
-                        data[class_index*3] = 0;
+                    // this is for passing data
+                    if (!data[class_index*4])
+                        data[class_index*4] = 0;
                     else ;
-
-                    if (!data[class_index*3 +1])
-                        data[class_index*3 +1] = 0;
+                    // this is for failing data
+                    if (!data[class_index*4 +1])
+                        data[class_index*4 +1] = 0;
                     else ;
-
-                    if (!data[class_index*3 +2])
-                        data[class_index*3 +2] = 0;
+                    // this is for total data
+                    if (!data[class_index*4 +2])
+                        data[class_index*4 +2] = 0;
                     else ;
 
                     //  update value~
                     if (json_content.indexOf("pass") > -1)
-                        data[class_index*3]+=1;
+                        data[class_index*4]+=1;
                     else 
-                        data[class_index*3 +1]+=1;
+                    {
+                        data[class_index*4 +1]+=1;
+                        showGreeting("fail~~here~~"+json_content);
+                        // 8/11, put fail_script in fail_data!
+                        if (!fail_data[class_index][0])
+                        {
+                            fail_data[class_index] = [];
+                            fail_data[class_index][0] = json_content;
+                        }
+                        else
+                        {
+                            var fail_length = fail_data[class_index].length;
+                            fail_data[class_index][fail_length] = json_content;
+                        }
+                        var tb = document.getElementById('mytable');
+                        // tb.rows[class_index+2].cells[4].appendChild("QQ+");
 
-                    data[class_index*3 +2]+=1;
+                        // var response = document.getElementById('response');
+                        var p = document.createElement('p');
+                        p.style.wordWrap = 'break-word';
+                        p.appendChild(document.createTextNode(json_content));
+                        tb.rows[class_index+2].cells[4].appendChild(p);
+                    }
+                    data[class_index*4 +2]+=1;
 
                     var tb = document.getElementById('mytable');
-                    tb.rows[class_index+2].cells[1].innerHTML = data[class_index*3];
-                    tb.rows[class_index+2].cells[2].innerHTML = data[class_index*3 + 1];
-                    tb.rows[class_index+2].cells[3].innerHTML = data[class_index*3 + 2]; 
-
-                    showGreeting(data[class_index*3 +1 ]);
+                    tb.rows[class_index+2].cells[1].innerHTML = data[class_index*4];
+                    tb.rows[class_index+2].cells[2].innerHTML = data[class_index*4 + 1];
+                    tb.rows[class_index+2].cells[3].innerHTML = data[class_index*4 + 2]; 
+                    // this is for showing fail data (link?)
                 });
             });
         }
@@ -121,6 +152,7 @@
                 insert_row(classname);
                 class_array.push(classname);
 
+                fail_data.push(classname);
             }
             else{
                 // do nothing
@@ -185,11 +217,13 @@
             Td = Tr.insertCell(Tr.cells.length);
             Td = Tr.insertCell(Tr.cells.length);
             Td = Tr.insertCell(Tr.cells.length);
+            Td = Tr.insertCell(Tr.cells.length);
         }
 
-        function select_and_add(where,value1,value2,value3)
+        function show_fail_data()
         {
-
+            // v1, showing fail_data[0][0]
+            showGreeting(fail_data[0][1]);
         }
     </script>
 </head>
@@ -266,6 +300,7 @@
                           <td>Pass </td>
                           <td>Fail </td> 
                           <td>Total </td>
+                          <td>Fail script link</td>
                         </tr>
                         <tr>
                           <td id = "group1"></td>
@@ -278,6 +313,8 @@
                           <script>document.getElementById('fail1').innerHTML = failcount</script>
                           <td id = "total1"></td>
                           <script>document.getElementById('total1').innerHTML = totalcount</script>
+
+                          <td></td>
                         </tr>
                           </table>
 
@@ -286,48 +323,12 @@
                         <label>scipt name:</label><input type="text" id="name" /><br>
                         <label>class name:</label><input type="text" id="classname" /><br>
                         
-                        <button id="sendName" onclick="sendName(10);">Send</button>
+                        <button id="sendName" onclick="sendName(100);">Send</button>
+                        <!-- <button id = "show_fail_data" onclick="show_fail_data();">SHOW FAIL DATA</button> -->
                         <p id="response"></p>
                     </div>
                 </div>
             </div>
         </div>
-
-<div id ="table1"></div>
-    <table id = "mytable" border="1">
-  <tr>
-    <td>class name</td>
-    <td>pass</td>
-    <td>fail</td> 
-    <td>total</td>
-  </tr>
-  <tr>
-    <td id = "group1"></td>
-    <!-- // <script type = "text/javascript"> choose_class("group1")</script> -->
-
-    <!-- getElementById is for init the table value to 0  -->
-    <td id ="pass1"></td>
-    <script>document.getElementById('pass1').innerHTML = ttttt</script>
-    <td id = "fail1"></td> 
-    <script>document.getElementById('fail1').innerHTML = failcount</script>
-    <td id = "total1"></td>
-    <script>document.getElementById('total1').innerHTML = totalcount</script>
-  </tr>
-    </table>
-
-<div>
-    <div>
-        <button id="connect" onclick="connect();">Connect</button>
-        <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
-    </div>
-
-    <div id="conversationDiv">
-        <label>scipt name:</label><input type="text" id="name" /><br>
-        <label>class name:</label><input type="text" id="classname" /><br>
-        
-        <button id="sendName" onclick="sendName(10);">Send</button>
-        <p id="response"></p>
-    </div>
-</div>
 </body>
 </html>

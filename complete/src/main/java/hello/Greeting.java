@@ -15,9 +15,9 @@ public class Greeting {
         this.qqqqq = qqqqq;
     }
 
-    public String getContent() {
-        return content;
-    }
+//    public String getContent() {
+//        return content;
+//    }
 
 
 }
